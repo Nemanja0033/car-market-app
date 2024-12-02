@@ -39,9 +39,9 @@ const App = () => {
         <Route path="/ads" element={<Ads />} />
         <Route path="/login" element={<Login />} />
         <Route path="/ad/:id" element={<Ad />} />
-        <Route path="/favourites/:id" element={<FavouriteAds />} />
+        <Route path="/favourites/:id" element={isAuth ? <FavouriteAds /> : <Login />} />
         <Route path="/myads/:id" element={<MyAds />} />
-        <Route path="/createadd" element={<CreateAdd />} />
+        <Route path="/createadd" element={isAuth ? <CreateAdd /> : <Login />} />
       </Routes>
       <SmNavbar />
     </Router>

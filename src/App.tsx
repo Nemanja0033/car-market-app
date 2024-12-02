@@ -8,8 +8,29 @@ import Login from "./pages/Login";
 import Navbar from "./view/lg/Navbar";
 import SmNavbar from "./view/sm/SmNavbar";
 import CreateAdd from "./pages/CreateAdd";
+import { useState, useEffect } from "react";
+import { useAuth } from "./context/AuthContext";
+import Loader from "./loaders/Loader";
 
 const App = () => {
+
+  const { isAuth } = useAuth();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const screenLoader = () => {
+      setLoading(false)
+    }
+
+    setTimeout(screenLoader, 400)
+  })
+
+  if(loading){
+    return(
+      <Loader />
+    )
+  }
+
   return (
     <Router>
       <Navbar />

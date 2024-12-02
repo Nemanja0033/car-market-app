@@ -1,13 +1,12 @@
-import { signInWithPopup } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../../config/firebase.ts'
-import { useAuth } from '../context/AuthContext.tsx';
 import { createUser } from './CreateUser.ts';
 
-const { setIsAuth, setUserName } = useAuth();
 
-//this function provide user login, storing is auth in loacl storage, and call function that create user in db
+//this function provide user login, storing is auth in local storage, and call function that create user in db
 
-export const Login = async () => {
+//google method
+export const signUpWithGoogle = async (setIsAuth: Function, setUserName: Function) => {
     signInWithPopup(auth, provider).then(async (result) => {
         setIsAuth(true);
         setUserName(result.user.displayName || "");
@@ -15,5 +14,34 @@ export const Login = async () => {
         localStorage.setItem("userName", result.user.displayName || "");
         localStorage.setItem("userID", result.user.uid)
         createUser();
+        location.href = '/';
+    })
+}
+
+//email and pass method
+export const signUpWithEmail =  async (setIsAuth: Function, setUserName: Function, email: string, password: string) => {
+    createUserWithEmailAndPassword(auth, email, password).then(async (result) => {
+        setIsAuth(true);
+        setUserName(result.user.displayName || "");
+        localStorage.setItem("isAuth", "true");
+        localStorage.setItem("userName", result.user.displayName || "");
+        localStorage.setItem("userID", result.user.uid)
+        createUser();
+        location.href = '/';
+
+    })
+}
+
+// sign in with email
+export const loginWithEmail =  async (setIsAuth: Function, setUserName: Function, email: string, password: string) => {
+    signInWithEmailAndPassword(auth, email, password).then(async (result) => {
+        setIsAuth(true);
+        setUserName(result.user.displayName || "");
+        localStorage.setItem("isAuth", "true");
+        localStorage.setItem("userName", result.user.displayName || "");
+        localStorage.setItem("userID", result.user.uid)
+        createUser();
+        location.href = '/';
+
     })
 }

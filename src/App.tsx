@@ -5,12 +5,12 @@ import Ad from "./pages/id/Ad";
 import FavouriteAds from "./pages/id/FavouriteAds";
 import MyAds from "./pages/id/MyAds";
 import Login from "./pages/Login";
-import Navbar from "./view/lg/Navbar";
 import SmNavbar from "./view/sm/SmNavbar";
 import CreateAdd from "./pages/CreateAdd";
 import { useState, useEffect } from "react";
 import { useAuth } from "./context/AuthContext";
 import Loader from "./loaders/Loader";
+import Redirector from "./helpers/Redirector";
 
 const App = () => {
 
@@ -36,7 +36,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/ads" element={<Ads />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={!isAuth ? <Login /> : <Redirector />} />
         <Route path="/ad/:id" element={<Ad />} />
         <Route path="/favourites/:id" element={isAuth ? <FavouriteAds /> : <Login />} />
         <Route path="/myads/:id" element={<MyAds />} />

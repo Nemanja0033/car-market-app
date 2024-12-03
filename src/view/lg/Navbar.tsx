@@ -22,7 +22,7 @@ const Navbar = () => {
         <Link to={"/createadd"}><button className="btn bg-black hover:bg-primary btn-sm text-white">Sell a car</button></Link>
          {!isAuth ?  <Link className="flex gap-1 items-center hover:text-primary" to={'/login'}><button className="btn bg-primary hover:bg-black btn-sm text-white">Sign Up</button></Link>
           :
-          <button onClick={() => logout(setIsAuth)} className="btn btn-neutral btn-sm bg-primary hover:bg-black text-white">Sign out</button>
+          <button onClick={() => logout(setIsAuth)} className="btn btn-sm bg-primary hover:bg-black text-white">Sign out</button>
         }
         </div>
     </nav>

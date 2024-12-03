@@ -21,6 +21,7 @@ export const signUpWithGoogle = async (setIsAuth: Function, setUserName: Functio
 //email and pass method
 export const signUpWithEmail =  async (setIsAuth: Function, setUserName: Function, email: string, password: string) => {
     createUserWithEmailAndPassword(auth, email, password).then(async (result) => {
+        console.log(result.user.email)
         setIsAuth(true);
         setUserName(result.user.displayName || "");
         localStorage.setItem("isAuth", "true");

@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   return (
     <div className="w-full z-10 h-screen bg-white flex justify-center overflow-hidden">
-      <div className="md:w-1/4 w-full h-96 flex-row md:mt-32 mt-48 md:shadow-md">
+      <div className="md:w-1/4 w-full h-96 flex-row md:mt-32 mt-32 md:shadow-md">
         <div className="flex justify-center">
           <img src="/loader.png" alt="logo" className="w-1/4" />
         </div>
@@ -33,7 +33,7 @@ const LoginForm = () => {
                 <br />
                 <span className="text-sm text-gray-500 cursor-pointer" onClick={handleStateChange}>{!isSignUp ? 'Already have account?' : 'Create New Account'}</span>
                 <br />
-                <button onClick={isSignUp ? () => signUpWithEmail(setIsAuth, setUserName, email, password ) : () => loginWithEmail(setIsAuth, setUserName, email, password)} className="btn btn-sm bg-black text-white mt-3 hover:bg-primary">{!isSignUp ? 'Sign Up' : 'Login'}</button>
+                <button onClick={!isSignUp ? () => signUpWithEmail(setIsAuth, setUserName, email, password ) : () => loginWithEmail(setIsAuth, setUserName, email, password)} className="btn btn-sm bg-black text-white mt-3 hover:bg-primary">{!isSignUp ? 'Sign Up' : 'Login'}</button>
             </div>
             </div>
         </div>

@@ -5,7 +5,8 @@ import { gearbox } from "../utils/gearbox";
 import { carColors } from "../utils/carColors";
 import { carBodyTypes } from "../utils/carBody";
 import { carYears } from "../helpers/carYear";
-import { handleCreateAd } from "../api/createAd";
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../../config/firebase";
 
 const AddForm = () => {
     const [brand, setBrand] = useState<string>("");
@@ -32,21 +33,30 @@ const AddForm = () => {
             setPreviews(previewUrls);
         }
     };
+    
+    const adsCollectionRef = collection(db, "ads");
 
-    const formData = {
-        brand,
-        model,
-        fuel,
-        engineCm,
-        color,
-        year,
-        gearboxType,
-        carBodyType,
-        price,
-        city,
-        phone,
-        images,
-    };
+    const handleCreateAd =  async () => {
+            await addDoc(adsCollectionRef, {
+                brand,
+                model,
+                fuel,
+                engineCm,
+                color,
+                year,
+                gearboxType,
+                carBodyType,
+                price,
+                city,
+                phone,
+                author:{
+                    username: auth.currentUser?.displayName,
+                    id: auth.currentUser?.uid,
+                }
+            }
+        );
+        location.reload();
+    }
 
     return (
         <div className="w-full h-screen flex items-center justify-center bg-gray-100">
@@ -54,7 +64,7 @@ const AddForm = () => {
                 <div className="flex justify-center items-center">
                     <img className="h-16 cursor-pointer" src="/logo.png" alt="car market logo" />
                 </div>
-                <form onSubmit={() => handleCreateAd(brand,model,year,carBodyType,gearboxType,color,city,phone,fuel,engineCm,price)} className="space-y-4">
+                <form className="space-y-4">
                     <select
                         value={brand}
                         onChange={(e) => setBrand(e.target.value)}
@@ -217,8 +227,9 @@ const AddForm = () => {
                         )}
                     </div>
                     <button
-                        type="submit"
+                        type="button"
                         className="w-full bg-primary text-white h-10 rounded-lg shadow-lg hover:bg-black"
+                        onClick={handleCreateAd}
                     >
                         Submit
                     </button>

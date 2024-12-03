@@ -16,6 +16,19 @@ const AddForm = () => {
     const [gearboxType, setGearbox] = useState<string>("");
     const [carBodyType, setCarBodyType] = useState<string>("");
     const [price, setPrice] = useState<number | string>("");
+    const [images, setImages] = useState<File[]>([]);
+    const [previews, setPreviews] = useState<string[]>([]);
+
+    const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files) {
+            const fileArray = Array.from(files);
+            setImages(fileArray);
+
+            const previewUrls = fileArray.map((file) => URL.createObjectURL(file));
+            setPreviews(previewUrls);
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,6 +42,7 @@ const AddForm = () => {
             gearboxType,
             carBodyType,
             price,
+            images,
         };
         console.log("Form data submitted:", formData);
     };
@@ -157,6 +171,30 @@ const AddForm = () => {
                         placeholder="Price ($)"
                         required
                     />
+                     <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-700">
+                            Upload Car Images
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImagesChange}
+                            className="w-full shadow-lg border rounded-lg px-3 py-2"
+                            multiple
+                        />
+                        {previews.length > 0 && (
+                            <div className="grid grid-cols-3 gap-2 mt-4">
+                                {previews.map((preview, index) => (
+                                    <img
+                                        key={index}
+                                        src={preview}
+                                        alt={`Preview ${index + 1}`}
+                                        className="w-full h-auto max-h-32 object-cover rounded-lg shadow-lg"
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                     <button
                         type="submit"
                         className="w-full bg-primary text-white h-10 rounded-lg shadow-lg hover:bg-black"

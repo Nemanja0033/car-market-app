@@ -50,6 +50,9 @@ const AddForm = () => {
     return (
         <div className="w-full h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+                <div className="flex justify-center items-center">
+                <img className="h-16 cursor-pointer" src="/logo.png" alt="car market logo"  />
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <select
                         value={brand}
@@ -181,6 +184,7 @@ const AddForm = () => {
                             onChange={handleImagesChange}
                             className="w-full shadow-lg border rounded-lg px-3 py-2"
                             multiple
+                            required
                         />
                         {previews.length > 0 && (
                             <div className="grid grid-cols-3 gap-2 mt-4">

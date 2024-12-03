@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-// this is a component to incrase security of pages
+// this is a component is used to redirect user from secured pages
 const Redirector = () => {
 
     useEffect(() => {

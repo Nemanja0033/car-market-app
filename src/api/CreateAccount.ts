@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../config/firebase.ts';
-import { createUser } from './CreateUser.ts';
+import { createUser } from './SaveUser.ts';
 
 //this function provide user login, storing is auth in local storage, and call function that create user in db
 
@@ -34,23 +34,8 @@ export const signUpWithEmail = async (setIsAuth: Function, setUserName: Function
             location.href = '/';
         })
         .catch((error) => {
-            alert('Error signing up: ' + error.message);
+            alert(`${email} is currently in use`);
+            console.log(error);
         });
 };
 
-// sign in with email
-export const loginWithEmail = async (setIsAuth: Function, setUserName: Function, email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
-        .then(async (result) => {
-            setIsAuth(true);
-            setUserName(result.user.displayName || "");
-            localStorage.setItem("isAuth", "true");
-            localStorage.setItem("userName", result.user.displayName || "");
-            localStorage.setItem("userID", result.user.uid);
-            createUser();
-            location.href = '/';
-        })
-        .catch((error) => {
-            alert('Error logging in: ' + error.message);
-        });
-};

@@ -1,3 +1,4 @@
+//logout user
 export const logout = (setIsAuth: Function) => {
     setIsAuth(false);
     localStorage.removeItem("isAuth");

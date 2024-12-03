@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
-import { logout } from "../../actions/Logout";
+import { logout } from "../../api/Logout";
 import { Tag } from "lucide-react";
 
 const Navbar = () => {

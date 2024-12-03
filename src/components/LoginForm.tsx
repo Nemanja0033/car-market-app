@@ -13,35 +13,72 @@ const LoginForm = () => {
     }
 
   return (
-    <div className="w-full z-10 h-screen bg-white flex justify-center overflow-hidden">
-      <div className="md:w-1/4 w-full h-96 flex-row md:mt-32 mt-32 md:shadow-md">
-        <div className="flex justify-center">
-          <img src="/loader.png" alt="logo" className="w-1/4" />
-        </div>
-        <div className="ml-3 mr-3">
-          <h1 className="text-md text-center text-primary tracking-wider">{!isSignUp ? 'Sign up and explore the ads and advertise' : 'Welcome back find some new wheels!'}</h1>
-        </div>
-        <div className="flex justify-center">
-            <div className="flex-row">
-                <label htmlFor="email">Email</label>
-                <br />
-                <input className="border h-8" type="email" name="email" onChange={(e) => setEmail(e.target.value)} />
-                <div className="flex-row">
-                <label htmlFor="email">Password</label>
-                <br />
-                <input className="border h-8" type="password" name="email"  onChange={(e) => setPassword(e.target.value)} />
-                <br />
-                <span className="text-sm text-gray-500 cursor-pointer" onClick={handleStateChange}>{!isSignUp ? 'Already have account?' : 'Create New Account'}</span>
-                <br />
-                <button onClick={!isSignUp ? () => signUpWithEmail(setIsAuth, setUserName, email, password ) : () => loginWithEmail(setIsAuth, setUserName, email, password)} className="btn btn-sm bg-black text-white mt-3 hover:bg-primary">{!isSignUp ? 'Sign Up' : 'Login'}</button>
-            </div>
-            </div>
-        </div>
-        <div className="flex justify-center mt-6">
-            <span onClick={() => signUpWithGoogle(setIsAuth, setUserName)} className="text-primary cursor-pointer">Sign up with Google</span>
-        </div>
+    <div className="w-full z-10 h-screen bg-gray-100 flex justify-center items-center overflow-hidden">
+  <div className="bg-white md:w-1/3 w-11/12 p-6 rounded-lg shadow-lg">
+
+    <div className="flex justify-center mb-4">
+      <img src="/loader.png" alt="logo" className="w-20" />
+    </div>
+    
+    <div className="text-center mb-6">
+      <h1 className="text-lg font-semibold text-gray-800">
+        {!isSignUp 
+          ? 'Sign up and explore the ads and advertise' 
+          : 'Welcome back! Find some new wheels!'}
+      </h1>
+    </div>
+    
+    <div className="space-y-4">
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+        <input
+          className="w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-2 focus:ring-primary focus:outline-none"
+          type="email"
+          name="email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+        <input
+          className="w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-2 focus:ring-primary focus:outline-none"
+          type="password"
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </div>
     </div>
+    
+    <div className="mt-4 text-center">
+      <span
+        className="text-sm text-gray-500 cursor-pointer hover:underline"
+        onClick={handleStateChange}
+      >
+        {!isSignUp ? 'Already have an account?' : 'Create New Account'}
+      </span>
+      <button
+        onClick={
+          !isSignUp
+            ? () => signUpWithEmail(setIsAuth, setUserName, email, password)
+            : () => loginWithEmail(setIsAuth, setUserName, email, password)
+        }
+        className="w-full bg-primary text-white py-2 mt-4 rounded-md hover:bg-primary-dark transition duration-200"
+      >
+        {!isSignUp ? 'Sign Up' : 'Login'}
+      </button>
+    </div>
+    
+    <div className="mt-6 text-center">
+      <span
+        onClick={() => signUpWithGoogle(setIsAuth, setUserName)}
+        className="text-primary font-medium cursor-pointer hover:underline"
+      >
+        Sign up with Google
+      </span>
+    </div>
+  </div>
+</div>
+
   )
 }
 

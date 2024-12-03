@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 import { logout } from "../../actions/Logout";
+import { Tag } from "lucide-react";
 
 const Navbar = () => {
 
   const { isAuth, setIsAuth } = useAuth();
 
   return (
-    <nav className="w-full h-[80px] flex md:justify-evenly justify-between items-center bg-white shadow-sm">
+    <nav className="w-full h-[80px] flex md:justify-evenly justify-between items-center bg-gray-50 shadow-md">
         <div className="md:ml-0 ml-6">
             <Link to={'/'}><img className="h-16 cursor-pointer" src="/logo.png" alt="car market logo"  /></Link>
         </div>
@@ -19,7 +20,7 @@ const Navbar = () => {
           <Link className="flex gap-1 items-center hover:text-primary" to={"/favourites/:id"}>Favourites</Link>
           </div>
 
-        <Link to={"/createadd"}><button className="btn bg-black hover:bg-primary btn-sm text-white">Sell a car</button></Link>
+        <Link className=" hover:text-black text-primary flex gap-1 items-center" to={"/createadd"}><Tag size={16} />Sell a Car</Link>
          {!isAuth ?  <Link className="flex gap-1 items-center hover:text-primary" to={'/login'}><button className="btn bg-primary hover:bg-black btn-sm text-white">Sign Up</button></Link>
           :
           <button onClick={() => logout(setIsAuth)} className="btn btn-sm bg-primary hover:bg-black text-white">Sign out</button>

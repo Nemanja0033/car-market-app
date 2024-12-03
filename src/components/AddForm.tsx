@@ -5,6 +5,7 @@ import { gearbox } from "../utils/gearbox";
 import { carColors } from "../utils/carColors";
 import { carBodyTypes } from "../utils/carBody";
 import { carYears } from "../helpers/carYear";
+import { handleCreateAd } from "../api/createAd";
 
 const AddForm = () => {
     const [brand, setBrand] = useState<string>("");
@@ -15,9 +16,11 @@ const AddForm = () => {
     const [year, setYear] = useState<string>("");
     const [gearboxType, setGearbox] = useState<string>("");
     const [carBodyType, setCarBodyType] = useState<string>("");
-    const [price, setPrice] = useState<number | string>("");
+    const [price, setPrice] = useState<string>("");
     const [images, setImages] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
+    const [city, setCity] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
 
     const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -30,30 +33,28 @@ const AddForm = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const formData = {
-            brand,
-            model,
-            fuel,
-            engineCm,
-            color,
-            year,
-            gearboxType,
-            carBodyType,
-            price,
-            images,
-        };
-        console.log("Form data submitted:", formData);
+    const formData = {
+        brand,
+        model,
+        fuel,
+        engineCm,
+        color,
+        year,
+        gearboxType,
+        carBodyType,
+        price,
+        city,
+        phone,
+        images,
     };
 
     return (
         <div className="w-full h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-center items-center">
-                <img className="h-16 cursor-pointer" src="/logo.png" alt="car market logo"  />
+                    <img className="h-16 cursor-pointer" src="/logo.png" alt="car market logo" />
                 </div>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={() => handleCreateAd(brand,model,year,carBodyType,gearboxType,color,city,phone,fuel,engineCm,price)} className="space-y-4">
                     <select
                         value={brand}
                         onChange={(e) => setBrand(e.target.value)}
@@ -174,7 +175,23 @@ const AddForm = () => {
                         placeholder="Price ($)"
                         required
                     />
-                     <div>
+                    <input
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="w-full shadow-lg h-10 border rounded-lg px-3"
+                        type="text"
+                        placeholder="City"
+                        required
+                    />
+                    <input
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full shadow-lg h-10 border rounded-lg px-3"
+                        type="tel"
+                        placeholder="Phone Number"
+                        required
+                    />
+                    <div>
                         <label className="block mb-2 text-sm font-medium text-gray-700">
                             Upload Car Images
                         </label>

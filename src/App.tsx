@@ -23,7 +23,7 @@ const App = () => {
     }
 
     setTimeout(screenLoader, 400)
-  })
+  }, [])
 
   if(loading){
     return(

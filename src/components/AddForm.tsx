@@ -5,8 +5,8 @@ import { gearbox } from "../utils/gearbox";
 import { carColors } from "../utils/carColors";
 import { carBodyTypes } from "../utils/carBody";
 import { carYears } from "../helpers/carYear";
-import { addDoc, collection } from "firebase/firestore";
-import { db, auth } from "../../config/firebase";
+import { uploadToCloud } from "../api/imagesUpload";
+import { handleCreateAd } from "../api/createAd";
 
 const AddForm = () => {
     const [brand, setBrand] = useState<string>("");
@@ -18,44 +18,40 @@ const AddForm = () => {
     const [gearboxType, setGearbox] = useState<string>("");
     const [carBodyType, setCarBodyType] = useState<string>("");
     const [price, setPrice] = useState<string>("");
-    const [images, setImages] = useState<File[]>([]);
-    const [previews, setPreviews] = useState<string[]>([]);
+    const [imageUrl, setImageUrl] = useState<string>();
+    const [preview, setPreview] = useState<boolean>(false);
     const [city, setCity] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
 
-    const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (files) {
-            const fileArray = Array.from(files);
-            setImages(fileArray);
 
-            const previewUrls = fileArray.map((file) => URL.createObjectURL(file));
-            setPreviews(previewUrls);
+
+    const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        try {
+            const url = await uploadToCloud(file);
+            setImageUrl(url);
+            setPreview(true);
+            console.log('Uploaded image URL:', url);
+        } catch (error) {
+            console.error('Error uploading image:', error);
         }
     };
     
-    const adsCollectionRef = collection(db, "ads");
-
-    const handleCreateAd =  async () => {
-            await addDoc(adsCollectionRef, {
-                brand,
-                model,
-                fuel,
-                engineCm,
-                color,
-                year,
-                gearboxType,
-                carBodyType,
-                price,
-                city,
-                phone,
-                author:{
-                    username: auth.currentUser?.displayName,
-                    id: auth.currentUser?.uid,
-                }
-            }
-        );
-        location.reload();
+    const AD_DATA = {
+        brand,
+        model,
+        fuel,
+        engineCm,
+        color,
+        year,
+        gearboxType,
+        carBodyType,
+        price,
+        city,
+        phone,
+        imageUrl,
     }
 
     return (
@@ -208,28 +204,21 @@ const AddForm = () => {
                         <input
                             type="file"
                             accept="image/*"
-                            onChange={handleImagesChange}
+                            onChange={handleFileUpload}
                             className="w-full shadow-lg border rounded-lg px-3 py-2"
                             multiple
                             required
                         />
-                        {previews.length > 0 && (
+                        {preview ? (
                             <div className="grid grid-cols-3 gap-2 mt-4">
-                                {previews.map((preview, index) => (
-                                    <img
-                                        key={index}
-                                        src={preview}
-                                        alt={`Preview ${index + 1}`}
-                                        className="w-full h-auto max-h-32 object-cover rounded-lg shadow-lg"
-                                    />
-                                ))}
+                                <img src={imageUrl} alt="" />
                             </div>
-                        )}
+                        ): ''}
                     </div>
                     <button
                         type="button"
                         className="w-full bg-primary text-white h-10 rounded-lg shadow-lg hover:bg-black"
-                        onClick={handleCreateAd}
+                        onClick={() => handleCreateAd(AD_DATA)}
                     >
                         Submit
                     </button>

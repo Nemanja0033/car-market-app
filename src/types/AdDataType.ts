@@ -8,7 +8,7 @@ export type AdDataType = {
     gearboxType: string,
     carBodyType: string,
     price: number | string,
-    images: File[],
+    imageUrl: string | undefined,
     city: string,
     phone: string,
 }

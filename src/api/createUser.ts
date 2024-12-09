@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../config/firebase.ts';
-import { createUser } from './SaveUser.ts';
+import { createUser } from './saveUser.ts';
 
 //this function provide user login, storing is auth in local storage, and call function that create user in db
 

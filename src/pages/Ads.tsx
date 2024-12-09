@@ -18,8 +18,8 @@ const Ads = () => {
   }, [])
 
   return (
-    <div className="flex justify-center w-1/2">
-      <div className="flex-row">
+    <div className="flex justify-center">
+      <div className="flex-row w-1/2">
         {adData.map((ad) => (
           <AdCard brand={ad.brand} model={ad.model} fuel={ad.fuel} engineCm={ad.engineCm} color={ad.color} year={ad.year} gearboxType={ad.gearboxType} carBodyType={ad.carBodyType} price={ad.price} imageUrl={ad.imageUrl} city={ad.city} phone={ad.phone} />
         ))}
